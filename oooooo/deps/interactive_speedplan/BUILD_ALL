@@ -1,0 +1,88 @@
+load("@rules_pkg//pkg:pkg.bzl", "pkg_tar")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "speed_hdrs",
+    hdrs = glob([
+        "**/*.h",
+        "**/*.hpp",
+    ]),
+    includes = [
+        "include/"
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "libinteractive_speedplan.so",
+    srcs = glob(["**/*.cc",
+                 "**/*.cpp",
+                 ],
+                 exclude = ["**/*_test.cc","**/example*"]),
+    includes = [
+        ".",
+        "../pnc_interface/deps/cereal/include",
+        "../pnc_interface/deps/LBFGSpp/include",
+        "../pnc_interface/deps/cereal/include",
+
+        "../pnp_decision/include",
+        "../pnc_interface/src",
+        
+        "../pnc_interface/proto",
+    ],
+    deps = [
+        ":speed_hdrs",
+        "//cheryos/zos/zlog",
+        "//apps/e2e_pnc/pnc_interface/proto:e2e_cc_proto",
+        "//apps/e2e_pnc/dispatcher_selector:mylibdispatcher_selector",
+        "//apps/e2e_pnc/pnp_decision:mylibpnp_decision",
+        "//apps/e2e_pnc/pnc_interface:mylibe2e_common",
+        "//apps/e2e_pnc/pnc_interface:e2e_common_hdrs",
+        "//messages/common:heartbeat_cc_proto",
+        "//messages/localization:localization_cc_proto",
+        "//messages/map_service:zdrive_map_cc_proto",
+        "//messages/map_fusion:map_fusion_cc_proto",
+        "//messages/prediction:prediction_cc_proto",
+        "//messages/cheryos/vehicle:vehicle_chassis_pt_cc_proto",
+        "//cheryos/ap_services/em:execution_client",
+        "//cheryos/system_services/system_monitor/include:report_cli_hdrs",
+
+        "@com_google_protobuf//:protobuf",
+        "//third_party:googletest",
+        "//third_party:boost",
+        "//third_party:myabsl",
+        "//third_party:osqp",
+        "//third_party:eigen3",
+    ],
+    linkshared = True,
+    linkstatic = False,
+    target_compatible_with = select({
+        "@platforms//cpu:x86_64": [],
+        "@platforms//board:board_j6": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+    copts = ["-std=c++17",
+            "-Wno-error=unused-parameter",
+            "-Wno-error=unused-variable",
+            "-Wno-error=unused-but-set-variable",
+            "-Wno-error=unused-function",
+            "-Wno-error=switch",]
+)
+
+cc_library(
+    name = "mylibinteractive_speedplan",
+    srcs = [
+        ":libinteractive_speedplan.so",
+    ],
+    hdrs = glob([
+        "**/*.h",
+        "**/*.hpp",
+    ]),
+    includes = [
+        "include/"
+    ],
+    visibility = ["//visibility:public"],
+)
+

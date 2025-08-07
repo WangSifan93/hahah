@@ -1,0 +1,138 @@
+{
+    "evaluation_decider_config": {
+        "cost_max_limit": {
+            "safety": 10.0,
+            "progress": 1.0,
+            "comfort": 3.0,
+            "default": 10.0
+        },
+        "safety": {
+            "enable_debug_info": false,
+            "lc_max_collision_dangerous_cost": 7.5,
+            "lk_near_side_front_collision_coef": 0.6,
+            "lk_far_side_front_collision_coef": 0.3,
+            "dangerous_lc": {
+                "enable": true,
+                "max_cost": 3.5,
+                "min_front_dist": 4.0,
+                "min_back_dist": 3.0,
+                "max_back_dist": 25.0,
+                "delta_v_buf": 1.0,
+                "delta_v_min": 0.1,
+                "catch_up_t_max": 7.0,
+                "safety_time_table": [
+                    [ 2.0, 1.0 ],
+                    [ 5.0, 0.1 ],
+                    [ 7.0, 0.0 ]
+                ],
+                "v_coef": 1.1,
+                "v_coef_velocity": 90.0,
+                "filter_front_obs_in_st": false,
+                "filter_back_obs_in_st": false
+            },
+            "safety_cost_table": [
+                [ 0.00, 10.0 ],
+                [ 0.30, 10.0 ],
+                [ 1.65, 5.0 ],
+                [ 3.00, 0.0 ]
+            ],
+            "safety_lon_cost_table": [
+                [ 3.00, 10.0 ],
+                [ 8.00, 7.0 ],
+                [ 13.00, 3.0 ],
+                [ 18.00, 0.0 ]
+            ],
+            "safety_lat_cost_table": [
+                [ 1.00, 10.0 ],
+                [ 2.00, 6.0 ],
+                [ 5.00, 0.0 ]
+            ],
+            "collision_time_weight_table": [
+                [ 0.0, 1.0 ],
+                [ 0.2, 0.1 ],
+                [ 8.0, 0.0 ]
+            ],
+            "weight_lat_slack": {
+                "weight_x": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "weight_u": [
+                    1.0
+                ],
+                "weight_u_dot": [
+                    1.0
+                ]
+            },
+            "weight_lon_slack": {
+                "weight_x": [
+                    1.0,
+                    1.0
+                ],
+                "weight_u": [
+                    1.0
+                ],
+                "weight_u_dot": [
+                    1.0
+                ]
+            }
+        },
+        "comfort": {
+            "weight_lat_slack": {
+                "weight_x": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "weight_u": [
+                    1.0
+                ],
+                "weight_u_dot": [
+                    1.0
+                ]
+            },
+            "weight_lon_slack": {
+                "weight_x": [
+                    1.0,
+                    1.0
+                ],
+                "weight_u": [
+                    1.0
+                ],
+                "weight_u_dot": [
+                    1.0
+                ]
+            },
+            "__comment__": "time weight slack",
+            "time_weight_table": [
+                [ 0.0, 1.0 ],
+                [ 0.2, 0.1 ],
+                [ 8.0, 0.0 ]
+            ]
+        },
+        "progress": {
+            "progress_cost_table": [
+                [ 0.0, 0.0 ],
+                [ 0.6, 1.0 ]
+            ],
+            "exceed_diverged_pt_cost": 1.0
+        },
+        "similarity": {
+            "similarity_cost_table": [
+                [ 0.0, 0.0 ],
+                [ 8.0, 2.0 ]
+            ]
+        },
+        "lane_change": {
+            "urgency_cost_weight": 1.0,
+            "abortion_cost": 0.5,
+            "staging_cost_addition": 0.5,
+            "last_lc_finished_cost": 0.0,
+            "lc_forbidden_cost": 0.0
+
+        }
+    }
+}

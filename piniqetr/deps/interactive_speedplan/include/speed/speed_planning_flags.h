@@ -1,0 +1,12 @@
+#ifndef PLANNER_SPEED_SPEED_FINDER_FLAGS_H_
+#define PLANNER_SPEED_SPEED_FINDER_FLAGS_H_
+
+#include "gflags/gflags.h"
+
+DECLARE_bool(planner_send_speed_optimizer_debug);
+DECLARE_bool(planner_enable_moving_close_traj_speed_limit);
+DECLARE_bool(planner_enable_right_turn_close_speed_limit);
+DECLARE_bool(planner_enable_cross_blind_close_decision);
+DECLARE_bool(enable_lanechanging_limit);
+
+#endif

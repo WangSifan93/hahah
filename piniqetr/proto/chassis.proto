@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package e2e_noa;
+
+message Chassis {
+  optional float steering_percentage = 1 [default = nan];
+}

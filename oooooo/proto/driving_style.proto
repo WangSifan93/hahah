@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package e2e_noa;
+
+enum LaneChangeStyle {
+  LC_STYLE_NORMAL = 1;
+  LC_STYLE_RADICAL = 2;
+  LC_STYLE_CONSERVATIVE = 3;
+}
+
+enum SpeedResponseStyle {
+  SPEED_RESPONSE_CONSERVATIVE = 0;
+  SPEED_RESPONSE_NORMAL = 1;
+  SPEED_RESPONSE_FAST = 2;
+  SPEED_RESPONSE_RADICAL = 3;
+}

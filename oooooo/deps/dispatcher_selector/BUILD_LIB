@@ -1,0 +1,20 @@
+load("@rules_pkg//pkg:pkg.bzl", "pkg_tar")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "mylibdispatcher_selector",
+    srcs = glob([
+        "*.so*",
+    ]),
+    hdrs = glob([
+        "include/**/*.h",
+        "include/**/*.hpp",
+    ]),
+    includes = [
+        "include/"
+    ],
+    visibility = ["//visibility:public"],
+)
+

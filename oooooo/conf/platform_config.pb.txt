@@ -1,0 +1,11 @@
+platform_config {
+  platform: "x86"
+  online_visualize: true
+  num_threads_plan: 15
+}
+
+platform_config {
+  platform: "orin"
+  online_visualize: false
+  num_threads_plan: 15
+}

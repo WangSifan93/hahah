@@ -1,0 +1,23 @@
+{
+    "standard_planning_config": {
+        "planner_type": [
+            "PUBLIC_ROAD"
+        ]
+    },
+    "vehicle_config_path": "apps/planning/config/json/vehicle_conf.json",
+    "local_route_path": "apps/planning/config/json/local_route_conf.json",
+    "public_road_path": "apps/planning/config/json/public_road_conf.json",
+    "decision_path": "apps/planning/config/json/decision_conf.json",
+    "tranform_traj_to_body_frame": true,
+    "planning_loop_rate": 10.0,
+    "trajectory_time_length": 5.0,
+    "enable_staging_corridor": true,
+    "enable_nudge_corridor": true,
+    "enable_use_nudgers_info": false,
+    "enable_lat_mpc_in_lane_keep": false,
+    "enable_reduce_obs_traj_sample_t": true,
+    "enable_lon_ref_v2": true,
+    "enable_prediction_time_compensation": true,
+    "use_corridor_boundary_blocking_judgement": false,
+    "enable_online_map": true
+}

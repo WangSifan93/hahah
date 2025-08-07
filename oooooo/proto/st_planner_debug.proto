@@ -1,0 +1,36 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+  
+
+import "trajectory_validation.proto";
+import "trajectory_initialization.proto";
+import "speed_planning.proto";
+import "decision_exploration.proto";
+import "turn_signal.proto";
+import "trajectory_point.proto";
+import "constraint.proto";
+import "optimizer.proto";
+import "planner_object.proto";
+import "planner_status.proto";
+
+// Next ID: 14
+message StPlannerDebugProto {
+  optional TurnSignalReason turn_signal_reason_enum = 1;
+
+  optional FilteredTrajectories filtered = 3;
+  optional SpacetimePlannerObjectTrajectoriesProto
+      st_planner_object_trajectories = 4;
+
+  optional DecisionExplorationOutputProto decision_exploration = 12;
+  optional ConstraintProto constraint = 6;
+  optional InitializationDebugProto initialization = 7;
+  optional TrajectoryOptimizerDebugProto trajectory_optimizer = 8;
+  repeated PathPoint st_path_points = 15;
+  optional SpeedPlanningDebugProto speed_planning = 9;
+  optional TrajectoryValidationResultProto traj_validation = 10;
+
+  optional PlannerStatusProto planner_status = 11;
+
+  reserved 2, 5, 13;
+}

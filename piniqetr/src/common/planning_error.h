@@ -1,0 +1,23 @@
+#ifndef AD_E2E_PLANNING_COMMON_ERROR_H
+#define AD_E2E_PLANNING_COMMON_ERROR_H
+
+namespace ad_e2e {
+namespace planning {
+
+enum class ErrorCode {
+  PLANNING_FINISHED = -1,
+  PLANNING_OK = 0,
+  PLANNING_SKIP = 1,
+  PLANNING_ERROR_NULL_POINTER = 2,
+  PLANNING_ERROR_NOT_FOUND = 3,
+  PLANNING_ERROR_NAN = 4,
+  PLANNING_ERROR_TIMEOUT = 5,
+  PLANNING_ERROR_FAILED = 6,
+  PLANNING_MAP_FAILED = 7,
+  PLANNING_OBSTACLE_FAILED = 8,
+};
+
+}
+}  // namespace ad_e2e
+
+#endif

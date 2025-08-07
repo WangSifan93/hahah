@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+  
+
+message ReferenceLineQpSmootherParamProto {
+  optional double lateral_offset_weight = 1 [default = 0.0];
+  optional double delta_weight = 2 [default = 0.0];
+  optional double kappa_weight = 3 [default = 0.0];
+  optional double lambda_weight = 4 [default = 0.0];
+
+  optional double base_kappa_gain = 5 [default = 1.0];
+
+  optional double length_weight = 6 [default = 0.0];
+  optional double base_length_gain = 7 [default = 0.2];
+}

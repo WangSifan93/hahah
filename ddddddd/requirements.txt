@@ -1,0 +1,7 @@
+numpy
+pandas
+protobuf
+bokeh
+packreader
+networkx
+pygraphviz

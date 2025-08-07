@@ -1,0 +1,207 @@
+{
+    "modules": [
+        {
+            "module_id": "E2EPncCallback_D-2eOt",
+            "class_name": "E2EPncComponent",
+            "package": "lib/e2e_pnc/libe2e_pnc.so",
+            "inputs": [
+                {
+                    "port_id": "PredictionObstacles",
+                    "topic": "/apps/prediction/prediction_objects#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10400
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "localization",
+                    "topic": "/apps/localization/localization_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10200
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "local_map",
+                    "topic": "/apps/mapfusion/local_hdmap_data_new#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10201
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "map_localization_state",
+                    "topic": "/apps/mapfusion/maplocalization_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10201
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "vehicle_status",
+                    "topic": "/cheryos/vehicle_service/chassis_pt_info#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 11303
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "fct_outputs",
+                    "topic": "/apps/plan_control/fct_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10504
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "port_id": "planner_res_pub",
+                    "topic": "/apps/plan_control/plan_result_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10505
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "planner_debug_pub",
+                    "topic": "/apps/plan_control/plan_result_data_debug#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10505
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "planner_heartbeat_pub",
+                    "topic": "/apps/e2e_pnc/heartbeat#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10500
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "procs": [
+                {
+                    "proc_id": "PredictionCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false
+                },
+                {
+                    "proc_id": "LocalizationCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false
+                },
+                {
+                    "proc_id": "MapCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false
+                },
+                {
+                    "proc_id": "MapLocalizationCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false
+                },
+                {
+                    "proc_id": "VehicleStatusCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false
+                },
+                {
+                    "proc_id": "FctOutputsCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false
+                },
+                {
+                  "proc_id": "E2EPncProc",
+                  "proc_type": "MsgTimerTriggerProc",
+                  "proc_option": {
+                      "interval": 100,
+                      "queue_capacity": 1
+                  },
+                  "disable": false
+                },
+                {
+                    "proc_id": "E2EPncDebugProc",
+                    "proc_type": "MsgTimerTriggerProc",
+                    "proc_option": {
+                        "interval": 100,
+                        "queue_capacity": 1
+                    },
+                    "disable": false
+                }
+            ]
+        }
+    ]
+}

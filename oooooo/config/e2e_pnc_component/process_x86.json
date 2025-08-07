@@ -1,0 +1,52 @@
+{
+  "process_name": "e2e_pnc",
+  "domain_id": 0,
+  "schedule_config": "config/e2e_pnc/e2e_pnc_component/schedule.json",
+  "runtime_context": "config/e2e_pnc/e2e_pnc_component/runtime_context.json",
+  "communication_config": "config/messages/communication/communication.json",
+  "log": {
+    "log_level": "info",
+    "rotate_number": 128,
+    "max_size": 256,
+    "log_path": "data/log"
+  },
+  "time": {
+    "clock_type": "steady_time",
+    "clock_topic": "/Clock",
+    "sub_paitipant": 55555,
+    "sub_domain_id": 0,
+    "pub_paitipant": 55555,
+    "pub_domain_id": 0
+  },
+  "monitor": {
+    "enable_diagnose": false,
+    "enable_event": false,
+    "topic": "/bole/dataflow/event",
+    "diagnose_check_interval": 1000
+  },
+  "dag_information": {
+    "enable": false,
+    "topic": "/bole/dataflow/dag",
+    "interval": 200,
+    "enable_module": false
+  },
+  "profiling": {
+    "enable_task": false,
+    "enable_inner_task": false,
+    "enable_message": false,
+    "enable_custom": false,
+    "interval": 50,
+    "topic": "/bole/dataflow/profiling",
+    "summary_stat_period": 10,
+    "summary_stat_topic": "/bole/dataflow/statistics",
+    "enable_task_statistics": false,
+    "enable_message_statistics": false
+  },
+  "soc": {
+    "enable": false
+  },
+  "running_threshold": {
+    "module_init": 3000000,
+    "module_reset": 3000000
+  }
+}

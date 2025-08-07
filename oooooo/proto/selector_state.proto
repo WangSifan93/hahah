@@ -1,0 +1,97 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+
+  
+
+import "turn_signal.proto";
+import "google/protobuf/timestamp.proto";
+
+enum LaneChangeReason {
+  NO_CHANGE = 0;
+  PROGRESS_CHANGE = 1;
+  ROUTE_CHANGE = 2;
+  DEFAULT_CHANGE = 3;
+  MANUAL_CHANGE = 4;
+  CENTER_CHANGE = 5;
+  MERGE_CHANGE = 6;
+  AVOID_ROADWORK_CHANGE = 7;
+  AVOID_STATIC_OBJECT = 8;
+  AVOID_VEHICLE_CHANGE = 9;
+  LCC_ROUTE_CHANGE = 10;
+  AVOID_LANE_BUS = 11;
+}
+
+enum LcUnableReason {
+  REASON_NONE = 0;
+  REASON_NO_LANE = 1;
+  REASON_OBSTACLE_FRONT = 2;
+  REASON_OBSTACLE_REAR = 3;
+  REASON_CURVATURE = 4;
+  REASON_LINE_SOLID = 5;
+  REASON_SATIC_OBSTACLE = 6;
+  REASON_GENERAL_REASON = 7;
+}
+
+enum LaneChangePrepareState {
+  Lane_Keeping = 0;
+  Lane_PrepareLeft = 1;
+  Lane_PrepareRight = 2;
+}
+
+enum LcFeasibility {
+  FEASIBILITY_OK = 0;
+  FEASIBILITY_NO_LANE = 1;
+  FEASIBILITY_CURVATURE = 2;
+  FEASIBILITY_LINE_TYPE = 3;
+  FEASIBILITY_OBS_CURRENT_FRONT = 4;
+  FEASIBILITY_OBS_TARGET_FRONT = 5;
+  FEASIBILITY_OBS_TARGET_BACK = 6;
+  FEASIBILITY_MERGE_LANE = 7;
+  FEASIBILITY_CONES = 8;
+  FEASIBILITY_LANE_NONPARALLEL = 9;
+  FEASIBILITY_GENERAL = 10;
+}
+
+enum LaneChangeState{
+  Lc_Keeping = 0;    
+  Lc_PrepareLeft = 1;      
+  Lc_PrepareRight = 2;      
+  Lc_ChangeLeft = 3;      
+  Lc_ChangeRight = 4;      
+  Lc_ChangeCancel = 5;      
+  Lc_KeepingInit = 6;     
+  Lc_ChangeInvalid = -1;
+}
+
+message LastLcInfoProto {
+  optional bool lc_left = 1;
+  optional google.protobuf.Timestamp lane_change_time = 2;
+}
+
+message TargetLaneStateProto {
+  optional bool is_borrow = 1;
+  optional bool is_fallback = 2;
+  repeated string lane_ids = 3;
+}
+
+message SelectorLaneChangeRequestProto {
+  optional LaneChangeReason lane_change_reason = 1;
+  optional bool lc_left = 2;
+}
+
+message SelectorStateProto {
+  repeated TargetLaneStateProto history_best_target_lane_states = 1;
+  optional TargetLaneStateProto selected_target_lane_state = 2;
+  optional TurnSignal pre_turn_signal = 3;
+  optional google.protobuf.Timestamp last_redlight_stop_time = 4;
+  optional LaneChangeReason lane_change_reason = 5;
+  optional LastLcInfoProto last_lc_info = 6;
+  optional SelectorLaneChangeRequestProto selector_lane_change_request = 7;
+  optional google.protobuf.Timestamp last_user_reject_alc_time = 8;
+  optional LaneChangeReason last_user_reject_alc_reason = 9;
+  optional LaneChangePrepareState lane_change_prepare_state = 10;
+  optional LcFeasibility lc_unable_reason = 11;
+  optional LaneChangeReason last_lane_change_reason = 12;
+  optional LaneChangeState pre_lane_change_state = 13;
+}

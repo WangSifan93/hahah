@@ -1,0 +1,97 @@
+# 负责组织整个E2E_PNC的打包工作 ,其余子文件只会生成各自需要的lib
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_pkg//pkg:pkg.bzl", "pkg_tar", "pkg_deb")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+
+package(default_visibility = ["//visibility:public"])
+
+pkg_tar(
+    name="e2e_pnc_libs",
+    include_runfiles=True,
+    srcs=[
+        "//apps/e2e_pnc/pnc_interface:libe2e_pnc.so",
+    ],
+    mode="0644",
+    package_dir="/zark/lib",
+    stamp=1,
+    target_compatible_with=select({
+        "@platforms//cpu:x86_64": [],
+        "@platforms//board:board_j6": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+)
+
+pkg_tar(
+    name = "e2e_pnc_proto_libs",
+    srcs = [
+        "//apps/e2e_pnc/pnc_interface/proto:e2e_cc_proto",
+    ],
+    mode = "0755",
+    package_dir = "/zark/apps/e2e_pnc/pnc_interface/",
+    stamp = 1,
+    target_compatible_with = select({
+        "@platforms//cpu:x86_64": [],
+        "@platforms//board:board_j6": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+)
+
+pkg_tar(
+    name = "e2e_pnc_func_conf",
+    srcs = [
+        "//apps/e2e_pnc/pnc_interface/conf:conf_files",
+    ],
+    mode = "0755",
+    package_dir = "/zark/apps/e2e_pnc/pnc_interface/conf",
+    stamp = 1,
+    target_compatible_with = select({
+        "@platforms//cpu:x86_64": [],
+        "@platforms//cpu:arm64e": [],
+        "@platforms//cpu:arm64_32": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+)
+
+pkg_tar(
+    name = "e2e_pnc_config",
+    srcs = [
+        "//apps/e2e_pnc/pnc_interface/config/e2e_pnc_component:config_files",
+    ],
+    mode = "0755",
+    package_dir = "/zark/apps/e2e_pnc/config/e2e_pnc_component",
+    stamp = 1,
+    target_compatible_with = select({
+        "@platforms//cpu:x86_64": [],
+        "@platforms//cpu:arm64e": [],
+        "@platforms//cpu:arm64_32": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+)
+
+# e2e_pnc_libs:
+#    libe2e_pnc.so, libe2e_common.so, libapps_Se2e_Upnc_Spnc_Uinterface_Sproto_Slibe2e_Uproto.so
+#    libdispatcher_selector.so, libtrajectory_optimization.so, libpnp_decision.so, libinteractive_speedplan.so
+
+pkg_tar(
+    name = "zark-asw-e2e_pnc",
+    extension = "tar.gz",
+    deps = [
+    ] + select(
+        {
+            "@platforms//cpu:x86_64": [
+                # release for x86 platform
+               "//apps/e2e_pnc:e2e_pnc_libs",
+               "//apps/e2e_pnc:e2e_pnc_config",
+               "//apps/e2e_pnc:e2e_pnc_func_conf",
+            ],
+            "@platforms//board:board_j6": [
+                # release for thor platform
+                "//apps/e2e_pnc:e2e_pnc_libs",
+                "//apps/e2e_pnc:e2e_pnc_config",
+                "//apps/e2e_pnc:e2e_pnc_func_conf",
+            ],
+        },
+        no_match_error = "Please Build with an ARM or Linux x86_64 platform",
+    ),
+)

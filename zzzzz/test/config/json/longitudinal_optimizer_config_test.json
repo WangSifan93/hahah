@@ -1,0 +1,142 @@
+{
+    "model": {
+        "dt": 1.0,
+        "num_steps": 4,
+        "num_states": 2,
+        "num_ctrls": 1,
+        "num_ctrl_rates": 1
+    },
+    "ref": {
+        "a_decel_speed_limit": -1.0,
+        "a_decel_obs": -1.0,
+        "a_accel_table": [
+            [ 0.0, 1.40 ],
+            [ 2.0, 1.50 ],
+            [ 4.0, 1.59 ],
+            [ 5.35, 1.67 ],
+            [ 8.0, 0.86 ],
+            [ 10.0, 0.50 ],
+            [ 12.0, 0.50 ],
+            [ 30.0, 0.50 ]
+        ]
+    },
+    "constraint": {
+        "front_stiff_padding_table": {
+            "regular_car": 4.0,
+            "large_car": 6.0,
+            "bicycle": 3.0,
+            "pedestrian": 3.0,
+            "virtual_fence": -1.0,
+            "others": 4.0
+        },
+        "rear_stiff_padding_table": {
+            "regular_car": 4.0,
+            "large_car": 6.0,
+            "bicycle": 3.0,
+            "pedestrian": 3.0,
+            "virtual_fence": -1.0,
+            "others": 4.0
+        },
+        "front_padding_speed_tolerance_table": [
+            [ 15.0, 3.0 ],
+            [ 20.0, 3.0 ],
+            [ 25.0, 3.0 ],
+            [ 30.0, 3.0 ]
+        ],
+        "rear_padding_speed_tolerance_table": [
+            [ 15.0, 3.0 ],
+            [ 20.0, 3.0 ],
+            [ 25.0, 3.0 ],
+            [ 30.0, 3.0 ]
+        ],
+        "front_padding_relative_speed_multiplier_table": [
+            [ 0.0, 1.0 ],
+            [ 0.333, 0.5 ],
+            [ 0.667, 0.2 ],
+            [ 1.0, 0.1 ]
+        ],
+        "rear_padding_relative_speed_multiplier_table": [
+            [ 0.0, 1.0 ],
+            [ 0.333, 0.5 ],
+            [ 0.667, 0.2 ],
+            [ 1.0, 0.1 ]
+        ],
+        "front_soft_padding_table": [
+            [ 0.0, 1.0 ],
+            [ 5.0, 7.0 ],
+            [ 15.0, 20.0 ],
+            [ 30.0, 25.0 ]
+        ],
+        "rear_soft_padding_table": [
+            [ 0.0, 1.0 ],
+            [ 5.0, 6.0 ],
+            [ 15.0, 20.0 ],
+            [ 30.0, 25.0 ]
+        ],
+        "v_soft_to_stiff": 3.0,
+        "a_max_stiff_table": [
+            [ 0.0, 1.80 ],
+            [ 2.0, 1.90 ],
+            [ 4.0, 2.05 ],
+            [ 5.35, 2.10 ],
+            [ 8.0, 1.35 ],
+            [ 10.0, 0.90 ],
+            [ 12.0, 0.60 ],
+            [ 30.0, 0.60 ]
+        ],
+        "a_max_soft_table": [
+            [ 0.0, 1.40 ],
+            [ 2.0, 1.50 ],
+            [ 4.0, 1.59 ],
+            [ 5.35, 1.67 ],
+            [ 8.0, 0.86 ],
+            [ 10.0, 0.50 ],
+            [ 12.0, 0.50 ],
+            [ 30.0, 0.50 ]
+        ],
+        "a_min_stiff": -6.0,
+        "a_min_soft_table": [
+            [0.0,-1.0],
+            [50.0,-1.0]
+        ],
+        "a_decel_speed_limit_violation": -1.0,
+        "j_max_stiff": 5.0,
+        "j_max_soft": 1.5,
+        "j_min_stiff": -6.0,
+        "j_min_soft": -3.0,
+        "constraint_padding_multiplier": 0.5
+    },
+    "cost": {
+        "Q": [ 1.0e-1, 1.0 ],
+        "R": [ 1.0 ],
+        "R_dot": [ 1.0 ],
+        "stiff_min": {
+            "s": 5.0e2,
+            "v": 5.0e2,
+            "a": 5.0e2,
+            "j": 5.0e2
+        },
+        "soft_min": {
+            "s": 1.0e1,
+            "v": 1.0e1,
+            "a": 1.0e1,
+            "j": 1.0e1
+        },
+        "stiff_max": {
+            "s": 5.0e2,
+            "v": 5.0e2,
+            "a": 5.0e2,
+            "j": 5.0e2
+        },
+        "soft_max": {
+            "s": 1.0e1,
+            "v": 1.0e1,
+            "a": 5.0e1,
+            "j": 5.0e1
+        }
+    },
+    "stop_hold":{
+        "s_tol": 3.0,
+        "v_min": 0.1
+    }
+}

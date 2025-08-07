@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package e2e_noa.mapping;
+
+message LanePointProto {
+  optional string lane_id = 1;
+  optional double fraction = 2;
+}

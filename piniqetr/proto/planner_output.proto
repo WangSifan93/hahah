@@ -1,0 +1,20 @@
+syntax = "proto2";
+package e2e_noa.planning;
+  
+import "planner.proto";
+import "trajectory.proto";
+import "planner_state.proto";
+import "external_command_status.proto";
+import "hmi_content.proto";
+
+message PlannerOutput {
+  optional TrajectoryProto trajectory = 2;
+
+  optional PlannerDebugProto planner_debug = 5;
+
+  optional HmiContentProto hmi_content = 6;
+
+  optional PlannerExternalCommandStatusProto external_command_status = 8;
+
+  optional PlannerStateProto planner_state_proto = 9;  // To delete here
+}

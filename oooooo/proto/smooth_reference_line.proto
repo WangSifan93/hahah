@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+  
+
+message SmoothedReferenceLineResultProto {
+  message LaneIdVec {
+    repeated string lane_id = 1;
+  }
+  repeated LaneIdVec lane_id_vec = 1;
+}

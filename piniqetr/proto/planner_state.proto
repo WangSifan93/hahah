@@ -1,0 +1,134 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+
+import "google/protobuf/timestamp.proto";
+import "lite_common.proto";
+import "lane_path.proto";
+import "lane_point.proto";
+import "affine_transformation.proto";
+import "constraint.proto";
+import "traffic_light_info.proto";
+import "lane_change.proto";
+import "selector_state.proto";
+import "autonomy_state.proto";
+import "trajectory.proto";
+import "route.proto";
+import "trajectory_initialization.proto";
+import "planner_object.proto";
+import "smooth_reference_line.proto";
+import "speed_planning.proto";
+import "optimizer.proto";
+//  import "trajectory_point.proto";
+
+message InputSeqNum {
+  optional uint64 pose = 1;
+  optional uint64 autonomy_state = 4;
+  optional uint64 traffic_light_states = 5;
+  optional uint64 driver_action = 6;
+  optional uint64 rerouting_request = 7;
+  optional uint64 remote_assist_to_car = 8;
+  optional uint64 recorded_route = 9;
+  optional uint64 chassis = 10;
+  optional uint64 prediction = 11;
+  optional uint64 localization_transform = 12;
+
+  // objects with scope type
+  optional uint64 real_objects = 13;
+  optional uint64 virtual_objects = 14;
+  optional uint64 av_objects = 15;
+
+  optional uint64 routing_result = 16;
+  optional uint64 prev_planner_debug = 17;
+
+  optional uint64 route_mgr_output = 18;
+  optional uint64 sensor_fovs = 19;
+  optional uint64 run_event_states = 20;
+
+  reserved 2, 3;
+}
+
+message TimeSeqNum {
+  optional uint64 ts_micros = 1;
+  optional uint64 seq_num = 2;
+}
+
+message PosePoint {
+  optional Vec2dProto pos = 1;
+  optional double theta = 2;
+}
+
+message ObjectsTransform {
+  optional TimeSeqNum objects = 1;
+  optional TimeSeqNum localization_transform = 2;
+}
+
+message PredictionSeq {
+  optional TimeSeqNum pose = 1;
+  optional TimeSeqNum localization_transform = 2;
+  optional TimeSeqNum traffic_light_states = 3;
+  optional TimeSeqNum real_objects = 4;
+  optional TimeSeqNum virtual_objects = 5;
+  optional TimeSeqNum objects_prediction = 6;  // Filled after publish
+}
+
+message PredictionStateProto {
+  repeated TimeSeqNum av = 4;
+  repeated ObjectsTransform objects_transforms = 8;
+  optional google.protobuf.Timestamp prediction_init_time = 6;
+  optional PredictionSeq prediction_seq = 7;
+
+  // Next id:9
+
+  reserved 1, 2, 3, 5;
+}
+
+message PlannerStateProto {
+  optional LiteHeader header = 1;
+
+  // Previous planned trajectory.
+  optional TrajectoryProto previous_trajectory = 2;
+
+  message ObjectIdList {
+    repeated string id = 1;
+  }
+
+  optional TrafficLightHistoryManagerProto tl_history_mgr = 3;
+
+
+  optional LaneChangeStateProto lane_change_state = 4;
+
+  optional AutonomyStateProto previous_autonomy_state = 5;
+
+  optional int32 version = 6;
+
+  optional InitializationStateProto initialization_state = 7;
+
+  optional mapping.LanePathProto prev_lane_path_before_lc = 8;
+  optional SpacetimePlannerObjectTrajectoriesProto
+      st_planner_object_trajectories = 9;
+  optional DeciderStateProto decision_state = 10;
+
+  // For Parallel planner.
+  optional mapping.LanePathProto prev_target_lane_path = 11;
+  optional double prev_length_along_route = 12;
+  optional double prev_max_reach_length = 14;
+  optional RouteSectionSequenceProto prev_route_sections = 15;
+  optional mapping.LanePointProto station_anchor = 16;
+
+  // Reference line smooth.
+  optional bool prev_smooth_state = 17;
+  optional SmoothedReferenceLineResultProto smooth_result_map = 18;
+
+  optional mapping.LanePathProto preferred_lane_path = 19;
+
+  // Yellow light observations.
+  map<string, YellowLightObservationProto> yellow_light_observations = 20;
+
+  optional SelectorStateProto selector_state = 21;
+
+  optional TrajectoryEndInfoProto previous_trajectory_end_info = 22;
+
+  optional TrajectoryOptimizerStateProto selected_trajectory_optimizer_state =
+      23;
+}

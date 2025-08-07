@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+  
+
+import "lane_path.proto";
+
+message TrafficWaitingQueueProto {
+  optional mapping.LanePathProto lane_path = 1;
+  repeated string object_id = 2;  // sort by longitudinal position
+};
+
+message ObjectAnnotationProto {
+  optional double stalled_vehicle_likelyhood = 1;  // [0, 1]
+  optional double depart_soon_likelyhood = 2;      // [0, 1]
+
+  // Do not overtake the vehicle which is starting.
+  optional double vehicle_starting_likelyhood = 3;
+  optional string object_id = 4;
+};
+
+
+// On road scene understanding output.
+message SceneOutputProto {
+  repeated TrafficWaitingQueueProto traffic_waiting_queue = 1;
+  repeated ObjectAnnotationProto objects_annotation = 2;
+}

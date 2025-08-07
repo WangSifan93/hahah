@@ -1,0 +1,111 @@
+{
+  "shm_option": {
+    "shm_size": "100M",
+    "block_size": "1M",
+    "hbmem_hold_timout_ms": 10
+  },
+  "dds_option": {
+    "dds_qos_profiles_file": ""
+  },
+  "supported_protocols": [
+    {
+      "enable": 1,
+      "protocol_type": 2,
+      "protocol_name": "zmq_tcp",
+      "is_in_hybrid": 1,
+      "plugin_file": "libplugin-zmq"
+    }
+  ],
+  "discovery_option": {
+    "default_eth": "",
+    "port_range": "10100-10200",
+    "multicast_domain": ""
+  },
+  "tool_switch": 1,
+  "participants": [
+    {
+      "id": 1,
+      "protocol": "zmq_tcp",
+      "link_info": "127.0.0.1:8871",
+      "link_type": "",
+      "link_options": {
+        "ZMQ_SNDHWM": 50,
+        "ZMQ_RCVHWM": 50,
+        "ZMQ_HEARTBEAT_IVL": 1000,
+        "ZMQ_HEARTBEAT_TIMEOUT": 2000
+      }
+    },
+    {
+      "id": 2,
+      "protocol": "zmq_tcp",
+      "link_info": "127.0.0.1:8873",
+      "link_type": "",
+      "link_options": {
+        "ZMQ_SNDHWM": 50,
+        "ZMQ_RCVHWM": 50,
+        "ZMQ_HEARTBEAT_IVL": 1000,
+        "ZMQ_HEARTBEAT_TIMEOUT": 2000
+      }
+    },
+    {
+      "id": 9,
+      "protocol": "zmq_tcp",
+      "link_info": "127.0.0.1:8878",
+      "link_type": "",
+      "link_options": {
+        "ZMQ_SNDHWM": 50,
+        "ZMQ_RCVHWM": 50,
+        "ZMQ_HEARTBEAT_IVL": 1000,
+        "ZMQ_HEARTBEAT_TIMEOUT": 2000
+      }
+    },
+    {
+      "id": 10,
+      "protocol": "zmq_tcp",
+      "link_info": "127.0.0.1:8874",
+      "link_type": "",
+      "link_options": {
+        "ZMQ_SNDHWM": 50,
+        "ZMQ_RCVHWM": 50,
+        "ZMQ_HEARTBEAT_IVL": 1000,
+        "ZMQ_HEARTBEAT_TIMEOUT": 2000
+      }
+    },
+    {
+      "id": 21,
+      "protocol": "zmq_tcp",
+      "link_info": "127.0.0.1:9870",
+      "link_type": "",
+      "link_options": {
+        "ZMQ_SNDHWM": 50,
+        "ZMQ_RCVHWM": 50,
+        "ZMQ_HEARTBEAT_IVL": 1000,
+        "ZMQ_HEARTBEAT_TIMEOUT": 2000
+      }
+    },
+    {
+      "id": 22,
+      "protocol": "zmq_tcp",
+      "link_info": "127.0.0.1:7877",
+      "link_type": "",
+      "link_options": {
+        "ZMQ_SNDHWM": 50,
+        "ZMQ_RCVHWM": 50,
+        "ZMQ_HEARTBEAT_IVL": 1000,
+        "ZMQ_HEARTBEAT_TIMEOUT": 2000
+      }
+    },
+    {
+      "id": 23,
+      "protocol": "zmq_tcp",
+      "link_info": "127.0.0.1:7878",
+      "link_type": "",
+      "link_options": {
+        "ZMQ_SNDHWM": 50,
+        "ZMQ_RCVHWM": 50,
+        "ZMQ_HEARTBEAT_IVL": 1000,
+        "ZMQ_HEARTBEAT_TIMEOUT": 2000
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "threadpool_scheduler": [
+    {
+      "scheduler_name": "l5YLxNUnR",
+      "thread_num": 0,
+      "configuration": {
+        "scheduler_type": "Fair",
+        "fair_type": "ordered"
+      }
+    }
+  ],
+  "timer_scheduler": [
+    {
+      "scheduler_name": "planning_proc_schedual",
+      "thread_num": 0,
+      "configuration": {
+        "timer_thread": {
+          "schedule_policy": "SCHED_FIFO"
+        }
+      }
+    }
+  ]
+}

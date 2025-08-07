@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+package e2e_noa;
+
+message LiteHeader {
+  // Timestamp in microseconds.
+  optional int64 timestamp = 1;
+  // The domain of lite message lives in, empty means default namespace.
+  optional string domain = 2;
+  // The increasing sequence number published by a client.
+  optional uint64 seq_number = 3;
+  // The integer format of LiteModuleName, not use LiteModuleName directly here
+  // to decouple with the message definition.
+  optional int32 module_id = 4;
+  optional string channel = 5;
+  // If it's a share memory message.
+  optional bool is_shm_msg = 6;
+  // The tag number in LiteMsgWrapper proto.
+  optional int32 tag_number = 7;
+  optional int64 log_timestamp = 8;
+  optional string full_node_name = 9;
+  // The increasing sequence number of per channel published by a client.
+  optional uint64 channel_seq_number = 10;
+  optional string source_node_name = 11;
+  optional bool cs_mode = 12;
+  extensions 10000 to max;
+}

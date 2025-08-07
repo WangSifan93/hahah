@@ -1,0 +1,101 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "base",
+    srcs = [
+        "base/macros.h",
+    ],
+    hdrs = [
+        "clock.h",
+        "conversion.h",
+        "log.h",
+        "macros.h",
+        "types.h",
+        "vehicle_config.h",
+    ],
+    includes = [
+        ".",
+    ],
+    target_compatible_with = select({
+        "@platforms//cpu:x86_64": [],
+        "@platforms//cpu:arm64e": [],
+        "@platforms//cpu:arm64_32": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+    deps = [
+        "//cheryos/zos/zlog",
+        "//third_party:glog",
+    ],
+)
+
+cc_library(
+    name = "common",
+    srcs = glob([
+        "local_route/*.cc",
+        "*.cc",
+    ]) + [
+        "clock.h",
+        "log.h",
+        "macros.h",
+        "types.h",
+        "vehicle_config.h",
+    ],
+    hdrs = glob(["local_route/*.h"]) + [
+        "corridor_info.h",
+        "dependency_injector.h",
+        "frame.h",
+        "indexed_list.h",
+        "indexed_queue.h",
+        "local_view.h",
+        "lookup_table.h",
+        "mission.h",
+        "mpc_data.h",
+        "obstacle.h",
+        "perception_obstacle.h",
+        "proposal.h",
+        "speed_limit.h",
+    ],
+    target_compatible_with = select({
+        "@platforms//cpu:x86_64": [],
+        "@platforms//cpu:arm64e": [],
+        "@platforms//cpu:arm64_32": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+    deps = [
+        ":base",
+        "//apps/planning/src/config",
+        "//apps/planning/src/decision/longitudinal:data_type",
+        "//apps/planning/src/motion/lateral:data_type",
+        "//apps/planning/src/planning_msgs",
+        "//apps/planning/src/reference_line_provider/pnc_map",
+        "//apps/planning/src/reference_line_provider/smoothers:local_route_smoother",
+        "//cheryos/zos/zlog",
+        "//messages/canbus:chassis_cc_proto",
+        "//messages/common:heartbeat_cc_proto",
+        "//messages/localization:localization_cc_proto",
+        "//messages/map_service:all_map_new_cc_proto",
+        "//messages/mapfusion:all_map_cc_proto",
+        "//messages/mapfusion:map_fusion_cc_proto",
+        "//messages/mapfusion:routing_cc_proto",
+        "//messages/perception:obstacle_cc_proto",
+        "//messages/planning:ads_adptrin_cc_proto",
+        "//messages/planning:ads_com_cc_proto",
+        "//messages/planning:ads_fct_cc_proto",
+        "//messages/planning:planning_cc_proto",
+        "//messages/planning:planning_debug_cc_proto",
+        "//messages/planning:reference_line_cc_proto",
+        "//messages/prediction:prediction_cc_proto",
+        "//messages/sensors:vehicle_upstream_cc_proto",
+        "//third_party:boost",
+        "//third_party:eigen3",
+        "//third_party:fmt",
+        "//third_party:glog",
+        "//third_party:googletest",
+        "//third_party:nlohmann_json",
+        "//third_party:osqp",
+        "//third_party:tros",
+        "@common_basic_msgs//:basic_msgs",
+    ],
+)

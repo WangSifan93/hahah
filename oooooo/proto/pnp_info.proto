@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package e2e_noa;
+import "prediction.proto";
+
+message CoordinateFrame {
+    enum FrameType {
+        UNKNOWN = 0;
+        WORLD = 1;      // 世界坐标系(UTM)
+        VEHICLE = 2;    // 车体坐标系(车辆中心为原点)
+    }
+    FrameType frame_type = 1; // 坐标系类型
+    optional string frame_id = 2; // 坐标系标识符
+}
+
+// PNP状态信息:验证PNP信息是否及时、有效
+message PNPStatus {
+    enum Status {
+        UNKNOWN = 0;    // 未知状态
+        NORMAL = 1;     // 正常工作
+        WARNING = 2;    // 警告状态
+        ERROR = 3;      // 错误状态
+        EMERGENCY = 4;  // 紧急状态
+    }
+    Status status = 1; // 当前状态
+    repeated string error_messages = 2; // 错误信息列表
+}
+
+// 主轨迹上的后续分支，例如分流、转向直行都可的场景
+message CandidateLaneSeq {
+    enum CandidateType {
+        Unknown = 0;    // 未知类型
+        TurnLeft = 1;   // 左转
+        TurnRight = 2;  // 右转
+        Straight = 3;   // 直行
+        SplitLeft = 4;  // 左分流
+        SplitRight = 5; // 右分流
+        UTurn = 8;      // 掉头
+    }
+
+    repeated string candidate_lane_id = 1; // 分支对应的车道ID列表
+    CandidateType can_type = 2; // 分支类型
+    optional double confidence = 3; // 分支置信度[0.0-1.0]
+    optional double length = 4; // 分支长度(米)
+    optional double estimated_time = 6; // 预估通过时间(秒)
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// V2： 提供轨迹级别信息，用于搜索参考：先放弃。
+message PNPInfos {
+    repeated PNPInfo infos = 1; // PNP轨迹信息列表
+    optional uint64 timestamp = 2; // 消息生成时间戳(微秒)
+    optional CoordinateFrame coordinate_frame = 4; // 坐标系定义
+    optional PNPStatus status = 5; // 整体状态信息
+    optional PlanningConfig config = 6; // 规划配置参数
+}
+
+// 规划配置参数
+message PlanningConfig {
+    optional double max_planning_time_ms = 1; // 最大规划时间(毫秒)
+    optional int32 max_candidates = 4; // 最大候选轨迹数量
+}
+
+message NudgeInfo {
+    enum NudgeReason {
+        None = 0;
+        Stationary = 1;           // 静止障碍物
+        Obstacle = 2;             // 动态障碍物
+        LaneMarking = 3;          // 车道线
+        RoadEdge = 4;             // 路缘/路肩
+        ParkedVehicle = 5;        // 停靠车辆
+        Pedestrian = 6;           // 行人
+        Bicycle = 7;              // 非机动车
+        SpecialVehicle = 8;       // 特殊车辆
+        Construction = 9;         // 施工区域
+        Debris = 10;              // 路面杂物
+        Animal = 11;              // 动物
+        TrafficCone = 12;         // 锥桶
+        Unknown = 99;             // 其他/未知
+    }
+    enum NudgeDirection {
+        UnknownDir =0;
+        NudgeLeft = 1;
+        NudgeRight = 2;
+    }
+    string nudge_id = 1; // 避让对象的id
+    NudgeReason nudge_reason = 2; // 避让原因
+    NudgeDirection nudge_direction = 3; // 避让方向
+    optional double nudge_value = 4; // 建议的横向偏移量(米)
+}
+
+// 轨迹元数据
+message TrajectoryMetadata {
+    optional string algorithm_name = 1; // 生成算法名称
+    optional double generation_time_ms = 2; // 生成耗时(毫秒)
+}
+
+// 每条目标轨迹对应的分支上的可能轨迹完整信息
+message CandidateTrajectoryInfo { 
+    PredictedTrajectoryProto traj = 1; // 预测轨迹
+    TrajectoryMetadata metadata = 3; // 轨迹元数据
+    repeated NudgeInfo nudge_info = 4; // 避让信息列表
+    optional bool is_preferred = 5; // 是否为优选轨迹
+    optional double cost = 6; // 轨迹代价值
+    optional TrajectoryValidation validation = 7; // 轨迹验证信息
+    // optional int32 priority = 7; // 轨迹优先级[0-最高]
+}
+
+// 轨迹验证信息
+message TrajectoryValidation {
+  bool is_valid = 1; // 轨迹是否有效
+  repeated string violation_reasons = 2; // 无效原因列表
+  optional double max_acceleration = 3; // 最大加速度(m/s²)
+  optional double max_curvature = 4; // 最大曲率(1/m)
+  optional double max_jerk = 5; // 最大加加速度(m/s³)
+  optional double max_velocity = 6; // 最大速度(m/s)
+}
+
+// repeated 字段，一个表示一个模态下的全部信息
+message PNPInfo {
+    optional double probability = 1; // 该轨迹组的选择概率[0.0-1.0]  <模态概率，暂时不可用>
+    repeated string target_lane_sequence_ids = 2; // target lane seq ids 
+    repeated CandidateLaneSeq candidated_lane_seqs = 3; // 候选车道序列ID列表
+    repeated CandidateTrajectoryInfo candidate_traj = 4; // 候选轨迹列表
+    optional bool is_main_branch = 5; // 是否为主分支模态， 选道使用只考虑主模态，且主模态下会提供两条候选lane seqs && prob
+    optional double planning_horizon = 6; // 规划时域(秒)
+    int32 lc_reason = 7;
+}
+
+
+

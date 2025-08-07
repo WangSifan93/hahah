@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package e2e_noa.planning.planning_config;
+
+message PlatformConfig {
+  string platform = 1;
+  bool online_visualize = 2;
+  uint32 num_threads_plan = 4;
+}
+
+message PlanningConfig {
+  repeated PlatformConfig platform_config = 1;
+}

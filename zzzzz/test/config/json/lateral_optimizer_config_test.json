@@ -1,0 +1,66 @@
+{
+    "model": {
+        "dt": 0.2,
+        "num_steps": 40,
+        "num_states": 4,
+        "num_ctrls": 1,
+        "num_ctrl_rates": 1
+    },
+    "ref": {
+        "dl_dt": 0.5
+      },
+    "constraint": {
+        "stiff_padding_table": {
+            "regular_car": 0.1,
+            "large_car": 0.1,
+            "bicycle": 0.1,
+            "pedestrian": 0.1,
+            "curb": 0.1,
+            "others": 0.1
+        },
+        "soft_padding_table": [
+            [ 0.0, 0.1 ],
+            [ 30.0, 0.1 ]
+        ],
+        "l_stiff_buffer": 0.0,
+        "l_soft_buffer": 0.0
+    },
+    "cost": {
+        "Q": [ 1.0, 0.0, 1.0, 0.0 ],
+        "R": [1.0],
+        "R_dot": [1.0],
+        "w_terminal": 10.0,
+        "stiff_min": {
+            "l": 5.0e2,
+            "l_dot": 5.0e2,
+            "psi": 5.0e2,
+            "psi_dot": 5.0e2,
+            "delta": 5.0e2,
+            "delta_dot": 5.0e2
+        },
+        "stiff_max": {
+            "l": 5.0e2,
+            "l_dot": 5.0e2,
+            "psi": 5.0e2,
+            "psi_dot": 5.0e2,
+            "delta": 5.0e2,
+            "delta_dot": 5.0e2
+        },
+        "soft_min": {
+            "l": 1.0e1,
+            "l_dot": 1.0e1,
+            "psi": 1.0e1,
+            "psi_dot": 1.0e1,
+            "delta": 1.0e1,
+            "delta_dot": 1.0e1
+        },
+        "soft_max": {
+            "l": 1.0e1,
+            "l_dot": 1.0e1,
+            "psi": 1.0e1,
+            "psi_dot": 1.0e1,
+            "delta": 1.0e1,
+            "delta_dot": 1.0e1
+        }
+    }
+}

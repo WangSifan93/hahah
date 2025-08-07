@@ -1,0 +1,74 @@
+syntax = "proto2";
+
+package e2e_noa;
+
+import "lite_common.proto";
+import "perception.proto";
+import "prediction_common.proto";
+
+enum PredictionType {
+  PT_VOID = 0;
+  PT_STATIONARY = 1;
+  PT_PED_KINEMATIC = 4;
+  PT_CYCV = 8;
+  PT_CTRA = 9;
+  PT_PROPHNET = 10;
+  PT_REVERSE_CYCV = 11;
+  PT_BIKE_LANE_FOLLOW = 12;
+  PT_VEHICLE_LANE_FOLLOW = 13;
+  PT_VEHICLE_TNT = 14;
+  PT_VEHICLE_AGENT_CENTRIC = 15;
+  PT_ACTNET = 16;
+  PT_ACTNET_J5 = 18;
+  PT_CUTIN_SL_NET = 19;
+  PT_LANE_SELECTION_NET = 20;
+  PT_ORACLE = 99;
+  reserved 2, 3, 5, 6, 7, 17;
+}
+
+enum TrajectoryIntention {
+  INTENTION_UNKNOWN = 0;
+  INTENTION_PARALLEL = 1;
+  INTENTION_LC_LEFT = 2;
+  INTENTION_LC_RIGHT = 3;
+  INTENTION_TURN_LEFT = 4;
+  INTENTION_TURN_RIGHT = 5;
+  INTENTION_TURN_AROUND = 6;
+  INTENTION_CROSS = 7;
+
+}
+
+message PredictedTrajectoryProto {
+  optional double probability = 1;
+  repeated PredictedTrajectoryPointProto points = 2;
+  optional PredictionType type = 9;
+  optional int32 index = 10;  // Trajectory index in all trajectories.
+  optional bool is_reversed =
+      11;  // if speed direction is opposite to obj heading.
+  optional TrajectoryIntention intention = 12;
+}
+
+message ObjectStopTimeProto {
+  optional double time_duration_since_stop = 1;
+  optional double previous_stop_time_duration = 2;
+  optional double last_move_time_duration = 3;
+}
+
+message ObjectLongTermBehaviorProto {
+  optional double average_speed = 1;
+  optional double observation_duration = 2;
+  repeated double accel_history = 3;  
+}
+
+message ObjectPredictionProto {
+  optional string id = 1;
+  repeated PredictedTrajectoryProto trajectories = 2;
+  optional ObjectProto perception_object = 6;
+  optional ObjectStopTimeProto stop_time = 7;
+  optional ObjectLongTermBehaviorProto long_term_behavior = 8;
+}
+
+message ObjectsPredictionProto {
+  optional LiteHeader header = 1;
+  repeated ObjectPredictionProto objects = 2;
+}

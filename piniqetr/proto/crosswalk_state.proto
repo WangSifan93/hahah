@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+  
+// This is the state. It is created when AV first stopped for the stop
+// sign.
+message CrosswalkStateProto {
+  optional string crosswalk_id = 1;
+  optional double stop_time = 2;
+
+  enum StopState {
+    APPROACHING = 1;
+    STOPPED = 2;
+    PASSED = 3;
+  }
+
+  optional StopState stop_state = 3;
+  repeated string must_yield_objects = 4;
+}

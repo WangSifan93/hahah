@@ -1,0 +1,67 @@
+syntax = "proto2";
+
+package e2e_noa.planning;
+  
+
+import "trajectory_point.proto";
+import "perception.proto";
+
+message FilterReason {
+  enum Type {
+    NONE = 1;
+    STATIONARY_OBJECT_NOT_ON_PLAN_PASSAGE = 2;
+    TRAJECTORY_NOT_ON_PLAN_PASSAGE = 3;
+    TRAJECTORY_LOW_LIKELIHOOD = 4;
+    STATIONARY_OBJECT_BEHIND_AV = 5;
+    OBJECT_BEHIND_MOVING_AWAY_FROM_AV = 6;
+    STATIONARY_OBJECT_NOT_ON_SL_BOUNDARY = 7;
+    REFLECTED_OBJECT_IN_PROXIMITY = 8;
+    TRAJECTORY_NOT_ON_SL_BOUNDARY = 9;
+    NOT_MOST_LIKELY_TRAJECTORY = 10;
+    TRAJECTORY_COLLIDES_WITH_CONFIDENT_OTHERS = 13;
+    IGNORED_BY_ACC = 14;
+  }
+}
+
+// Records the filtered objects or predictions.
+message FilteredTrajectories {
+  message Filtered {
+    optional FilterReason.Type reason = 1;
+    optional string id = 2;
+    optional int32 index = 3;
+  }
+  repeated Filtered filtered = 1;
+}
+
+message SpacetimePlannerObjectTrajectoryReason {
+  enum Type {
+    NONE = 1;
+    STATIONARY = 2;
+    SIDE = 3;
+    EMERGENCY_AVOIDANCE = 4;
+    FRONT = 5;
+    LEADING = 6;
+    ALL = 7;
+  }
+}
+
+// Records the trajectories considered in spacetime planning.
+message SpacetimePlannerObjectTrajectoriesProto {
+  message SpacetimePlannerObjectTrajectoryProto {
+    optional SpacetimePlannerObjectTrajectoryReason.Type reason = 1;
+    optional string id = 2;
+    optional int32 index = 3;
+  }
+  repeated SpacetimePlannerObjectTrajectoryProto trajectory = 1;
+}
+
+message PlannerObjectProto {
+  optional ObjectProto object = 1;
+
+  message PredictionInfoProto {
+    optional double probability = 1;
+    repeated SecondOrderTrajectoryPointProto points = 2;
+  }
+  repeated PredictionInfoProto prediction = 2;
+  optional bool is_stationary = 3;
+}

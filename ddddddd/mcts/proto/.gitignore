@@ -1,0 +1,12 @@
+**/build/
+**/.cache/
+*.sw*
+install/
+.vscode/
+tmp/
+temp/
+/data/
+**/__pycache__/
+*.gz
+*.log
+

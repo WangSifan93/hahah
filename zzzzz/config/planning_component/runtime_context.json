@@ -1,0 +1,323 @@
+{
+    "modules": [
+        {
+            "module_id": "PlanningCallback_D-2eOt",
+            "class_name": "PlanningComponent",
+            "package": "lib/libplanning.so",
+            "inputs": [
+                {
+                    "port_id": "PredictionObstacles",
+                    "topic": "/apps/prediction/prediction_objects#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 2
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "localization",
+                    "topic": "/apps/localization/localization_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 9
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "local_map",
+                    "topic": "/apps/mapfusion/local_hdmap_data_new#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 1
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "steerstate",
+                    "topic": "/apps/sensors/vehicleio_upstream#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 21
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "map_localization_state",
+                    "topic": "/apps/mapfusion/maplocalization_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 1
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "fct_outputs",
+                    "topic": "/apps/noa_pnc/fct_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 23
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "adptrin_outputs",
+                    "topic": "/apps/noa_pnc/adptrin_data#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 22
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "port_id": "PlanningOutputMsg",
+                    "topic": "/apps/planning/plan#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "Heartbeat",
+                    "topic": "/apps/module/heartbeat#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "PlanningOutputRefLine",
+                    "topic": "/apps/planning/reference_line#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "PlanningDebugInfo",
+                    "topic": "/apps/planning/debug_info#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "NoaDecisionOutput",
+                    "topic": "/apps/noa_decision/ads_decision#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "port_id": "NoaDecisionMeasureOutput",
+                    "topic": "/apps/noa_decision/ads_decision_measure#0",
+                    "communication": {
+                        "comm_protocol": "zmq_tcp",
+                        "comm_attr": {
+                            "participants": [
+                                {
+                                    "id": 10
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "procs": [
+                {
+                    "proc_id": "PredictionCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "l5YLxNUnR"
+                    }
+                },
+                {
+                    "proc_id": "LocalizationCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "l5YLxNUnR"
+                    }
+                },
+                {
+                    "proc_id": "MapCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "l5YLxNUnR"
+                    }
+                },
+                {
+                    "proc_id": "MapLocalizationCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "l5YLxNUnR"
+                    }
+                },
+                {
+                    "proc_id": "CanDataCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "l5YLxNUnR"
+                    }
+                },
+                {
+                    "proc_id": "FctDataCallback",
+                    "proc_type": "MsgCondTriggerProc",
+                    "proc_option": {
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "l5YLxNUnR"
+                    }
+                },
+                {
+                  "proc_id": "PlanningProc",
+                  "proc_type": "MsgTimerTriggerProc",
+                  "proc_option": {
+                      "interval": 100,
+                      "queue_capacity": 1
+                  },
+                  "disable": false,
+                  "schedule_group": {
+                      "scheduler_name": "planning_proc_schedual"
+                  }
+                },
+                {
+                    "proc_id": "PlanningDebugProc",
+                    "proc_type": "MsgTimerTriggerProc",
+                    "proc_option": {
+                        "interval": 100,
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "planning_proc_schedual"
+                    }
+                },
+                {
+                    "proc_id": "PlanningRefLineProc",
+                    "proc_type": "MsgTimerTriggerProc",
+                    "proc_option": {
+                        "interval": 100,
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "planning_proc_schedual"
+                    }
+                },
+                {
+                    "proc_id": "HeartbeatProc",
+                    "proc_type": "MsgTimerTriggerProc",
+                    "proc_option": {
+                        "interval": 100,
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "planning_proc_schedual"
+                    }
+                },
+                {
+                    "proc_id": "NoaDecisionMeasureProc",
+                    "proc_type": "MsgTimerTriggerProc",
+                    "proc_option": {
+                        "interval": 100,
+                        "queue_capacity": 1
+                    },
+                    "disable": false,
+                    "schedule_group": {
+                        "scheduler_name": "planning_proc_schedual"
+                    }
+                }
+            ]
+        }
+    ]
+}

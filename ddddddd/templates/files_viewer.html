@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Flask应用</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  [[ resources|safe ]]
+  <style>
+    html,
+    body {
+      overflow: hidden;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+      height: 52px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .content {
+      height: calc(100vh - 52px);
+      overflow: scroll;
+    }
+
+    .list-group-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .sidebar-container {
+      border-right: 1px solid #dee2e6;
+    }
+    
+    /* 自定义按钮颜色 */
+    .btn-prev {
+      background-color: #3B82F6; /* 蓝色 */
+      color: white;
+    }
+    
+    .btn-prev:hover {
+      background-color: #2563EB;
+    }
+    
+    .btn-next {
+      background-color: #10B981; /* 绿色 */
+      color: white;
+    }
+    
+    .btn-next:hover {
+      background-color: #059669;
+    }
+    
+    .btn-play {
+      background-color: #F59E0B; /* 琥珀色 */
+      color: white;
+    }
+    
+    .btn-play:hover {
+      background-color: #D97706;
+    }
+    
+    .btn-pause {
+      background-color: #EF4444; /* 红色 */
+      color: white;
+    }
+    
+    .btn-pause:hover {
+      background-color: #DC2626;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="row">
+    <div class="col-1 sidebar-container">
+      <ul class="content list-group">
+        <li v-for="(file, index) in files" :key="index" 
+            @click="selectFile(file)" 
+            @dblclick="loadFileContent(true)"
+            :class="['list-group-item', {active: file === selectedFile}]">
+          {{ file }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-11 main-area">
+      <div class="row">
+        <div class="col-6 controls">
+          <button class="btn btn-prev" @click="changeFile(-1)">上一个</button>
+          <button class="btn btn-next" @click="changeFile(1)">下一个</button>
+          <button class="btn" 
+                  :class="[playInterval ? 'btn-pause' : 'btn-play']" 
+                  @click="togglePlay()">
+            {{ playInterval ? '暂停' : '播放' }}
+          </button>
+          <span v-if="isLoading" class="spinner-border spinner-border-sm loading-icon"></span>
+        </div>
+        <div class="col-6 controls">
+        </div>
+      </div>
+      <div class="content">
+        <div id="plot"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          inputFolder: '[[ inputFolder | safe ]]',
+          files: JSON.parse('[[ files | safe ]]'),
+          selectedFile: '',
+          fileContent: '',
+          isLoading: false,
+          bokehObj: null,
+          playInterval: null,
+        }
+      },
+      computed: {
+      },
+      watch: {
+        fileContent(newValue, oldValue) {
+          if (this.bokehObj) {
+            this.bokehObj.clear();
+          }
+          if (!newValue) {
+            return;
+          }
+          try {
+            Bokeh.embed.embed_item(JSON.parse(newValue), "plot").then(res => {
+              this.bokehObj = res;
+            });
+          } catch (err) {
+            console.error('嵌入Bokeh图表失败:', err);
+            alert('图表加载失败: ' + err.message);
+          }
+        }
+      },
+      methods: {
+        selectFile(file) {
+          this.selectedFile = file;
+          this.loadFileContent();
+        },
+        loadFileContent(forceReload = false) {
+          if (!this.selectedFile) return;
+
+          this.isLoading = true;
+          fetch(`/api/file`, {
+            method: 'POST',
+            body: new URLSearchParams({
+              file_name: this.inputFolder + '/' + this.selectedFile
+            }),
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`加载失败: ${response.status} ${response.statusText}`);
+              }
+              return response.text();
+            })
+            .then(data => {
+              this.fileContent = data;
+              this.isLoading = false;
+            })
+            .catch(err => {
+              console.error('加载文件内容失败:', err);
+              alert('加载失败: ' + err.message);
+              this.isLoading = false;
+            });
+        },
+        changeFile(direction) {
+          const currentIndex = this.files.indexOf(this.selectedFile);
+          const nextIndex = currentIndex + direction;
+          if (nextIndex >= 0 && nextIndex < this.files.length) {
+            this.selectFile(this.files[nextIndex]);
+            return true;
+          }
+          return false;
+        },
+        togglePlay() {
+          if (!this.playInterval) {
+            this.playInterval = setInterval(() => {
+              if (this.isLoading) return;
+              if (!this.changeFile(1)) {
+                clearInterval(this.playInterval);
+                this.playInterval = null;
+              }
+            }, 1000);
+          } else {
+            clearInterval(this.playInterval);
+            this.playInterval = null;
+          }
+        },
+      },
+      mounted() {
+        if (this.inputFolder && this.files.length > 0) {
+          this.selectFile(this.files[0]);
+        }
+      }
+    }).mount('#app');
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>    

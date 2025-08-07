@@ -1,0 +1,168 @@
+syntax = "proto2";
+
+package e2e_noa;
+
+import "aabox.proto";
+import "affine_transformation.proto";
+import "box2d.proto";
+import "lite_common.proto";
+
+// NEXT ID: 16
+enum ObjectType {
+  OT_UNKNOWN_STATIC = 0;
+  OT_VEHICLE = 1;
+  OT_MOTORCYCLIST = 2;
+  OT_PEDESTRIAN = 3;
+  OT_CYCLIST = 4;
+  OT_FOD = 5;
+  OT_UNKNOWN_MOVABLE = 6;
+  OT_VEGETATION = 7;
+  OT_BARRIER = 8;
+  OT_CONE = 10;
+  OT_WARNING_TRIANGLE = 13;
+  OT_TRICYCLIST = 14;
+  OT_LARGE_VEHICLE = 15;
+  reserved 9, 11, 12;
+}
+
+enum ObservationState {
+  OS_UNKNOWN = 0;
+  OS_PARTIALLY_OBSERVED = 1;
+  OS_PARTIALLY_OCCLUDED = 2;
+}
+
+message ObjectProto {
+  optional string id = 9;
+  optional ObjectType type = 1;
+  optional Vec2dProto pos = 2;    // Smooth frame position.
+  optional double yaw = 10;       // Facing orientation.
+  optional double yaw_rate = 11;  // dyaw/dt.
+  optional Vec2dProto vel = 5;    // dpos/dt.
+  optional Vec2dProto accel = 6;  // dvel/dt.
+  repeated Vec2dProto contour = 7;
+  optional double timestamp = 8;
+
+  optional Box2dProto bounding_box = 12;
+  optional bool parked = 14;         // Indicate if this is a parked vehicle.
+
+  optional double min_z = 20;
+  optional double max_z = 21;
+  
+  optional ObservationState observation_state = 27;
+  optional double ground_z = 29;
+  optional ObstacleLight obstacle_light = 30;
+  reserved 3, 4, 17;
+}
+
+message ObstacleLight {
+  optional ObstacleLightType left_turn_lights = 1;   // 0=unknown 1=off 2=on
+  optional ObstacleLightType right_turn_lights = 2;  // 0=unknown 1=off 2=on
+  optional ObstacleLightType brake_lights = 3;       // 0=unknown 1=off 2=on
+  optional ObstacleLightType hazard_lights = 4;       // 0=unknown 1=off 2=on
+
+  optional double left_turn_lights_conf = 5;
+  optional double right_turn_lights_conf = 6;
+  optional double brake_lights_conf = 7;
+  optional double hazard_lights_conf = 8;
+
+}
+
+enum ObstacleLightType { 
+  LIGHT_UNKNOWN = 0;
+  LIGHT_OFF = 1;
+  LIGHT_ON = 2;
+}
+
+message ObjectsProto {
+  optional LiteHeader header = 1;
+
+  enum Scope {
+    SCOPE_REAL = 0;
+    SCOPE_VIRTUAL = 1;
+    SCOPE_AV = 2;
+  };
+  optional Scope scope = 2;
+  repeated ObjectProto objects = 3;
+}
+
+enum TrafficLightColor {
+  TL_UNKNOWN = 0;
+  TL_RED = 1;
+  TL_YELLOW = 2;
+  TL_GREEN = 3;
+}
+
+enum TrafficLightCountDown {
+  TL_COUNTDOWN_UNKNOWN = 0;
+  TL_ONE = 1;
+  TL_TWO = 2;
+  TL_THREE = 3;
+  TL_FOUR = 4;
+  TL_FIVE = 5;
+  TL_SIX = 6;
+  TL_SEVEN = 7;
+  TL_EIGHT = 8;
+  TL_NINE = 9;
+  TL_GREATERTHANNINE = 10;
+  TL_COUNTDOWN_COUNT = 11;
+}
+
+enum TrafficLightStateSourceProto {
+  TL_SS_OBSERVATION = 0;
+  TL_SS_DETERMINISTIC_LOGIC = 1;
+}
+enum TrafficLightShape {
+  TLS_ROUND = 1;
+  TLS_UP_ARROW = 2;
+  TLS_LEFT_ARROW = 3;
+  TLS_RIGHT_ARROW = 4;
+  TLS_UP_LEFT_ARROW = 5;
+  TLS_UP_RIGHT_ARROW = 6;
+  TLS_UTURN = 7;
+  TLS_COUNTDOWN = 8;
+  TLS_TEXT = 9;
+}
+
+// NEXT ID: 30
+message TrafficLightStateProto {
+  // Traffic light related information.
+  optional double timestamp_deprecated = 1 [deprecated = true];
+  optional int64 traffic_light_id = 2;
+  optional double camera_center_timestamp = 16;
+  optional double camera_trigger_timestamp = 17;
+  optional double tl_yaw_diff = 18;
+  optional double distance = 19;
+
+  // Estimated state related information.
+  optional TrafficLightColor color = 3;
+  optional TrafficLightShape shape = 4;
+  optional float score = 6;
+  optional bool flashing = 7 [default = false];
+  optional bool occluded = 8 [default = false];
+  optional float occlusion_ratio = 9 [default = 0];
+  optional TrafficLightColor raw_color = 11;
+  optional TrafficLightColor temporal_fused_color = 24;
+  optional bool temporal_fused_flashing = 25 [default = false];
+  optional TrafficLightColor multi_camera_voted_color = 27;
+
+  optional TrafficLightStateSourceProto state_source = 10
+      [default = TL_SS_OBSERVATION];
+
+  // The traffic light region related information.
+  optional int32 x = 12;
+  optional int32 y = 13;
+
+  optional int32 raw_x = 30;
+  optional int32 raw_y = 31;
+  
+  optional int32 width = 14;
+  optional int32 height = 15;
+  optional int32 original_width = 20;
+  optional int32 original_height = 21;
+  repeated AABox2iProto light_body_bboxes = 22;
+  repeated AABox2iProto light_bboxes = 23;
+  optional TrafficLightCountDown countdown = 26
+      [default = TL_COUNTDOWN_UNKNOWN];
+  optional bool merged_result = 28 [default = false];
+  optional int32 countdown_int = 29;
+}

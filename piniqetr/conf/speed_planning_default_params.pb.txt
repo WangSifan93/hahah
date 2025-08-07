@@ -1,0 +1,495 @@
+speed_optimizer_params {
+  knot_num: 41
+  output_time_resolution: 0.1
+  speed_buffer: 0.1
+  s_kernel_weight: 0.00001
+  speed_kernel_weight: 0.5
+  accel_kernel_weight: 8.0
+  jerk_kernel_weight: 10.0
+  regularization: 0.0
+  s_follow_weak_weight: 0.8
+  s_follow_strong_weight: 6.0
+  s_lead_weak_weight: 0.8
+  s_lead_strong_weight: 4.0
+  s_stop_weight: 10.0
+  accel_weight_gain_plf {
+    x: 3.0
+    x: 6.0
+    x: 10.0
+    x: 15.0
+    x: 20.0
+    y: 0.1
+    y: 1.0
+    y: 2.0
+    y: 3.0
+    y: 3.5
+  }
+  piecewise_time_range: 0.0
+  piecewise_time_range: 3.0
+  piecewise_time_range: 7.0
+  piecewise_time_range: 10.0
+  time_gain_for_moving_object: 1.0
+  time_gain_for_moving_object: 0.9
+  time_gain_for_moving_object: 0.1
+  time_gain_for_static_object: 1.0
+  time_gain_for_static_object: 1.0
+  time_gain_for_static_object: 1.1
+  accel_lower_slack_weight: 50.0
+  accel_lower_bound_plf { x: 10.0 x: 20.0 x: 30.0 y: -5.1 y: -5.1 y: -5.1 }
+  ref_speed_bias: 3.0
+  ref_speed_time_gain {
+    x: 2.0
+    x: 4.0
+    x: 6.0
+    x: 8.0
+    y: 1.6
+    y: 1.0
+    y: 0.6
+    y: 0.2
+  }
+  ref_speed_static_limit_bias: 0.7
+  enable_comfort_brake_speed: true
+  enable_const_speed_ref_v: false
+  soft_jerk_lower_weight_plf { x: 5.0 x: 10.0 x: 20.0 y: 0.01 y: 3.0 y: 6.0 }
+  soft_jerk_upper_weight_plf { x: 2.0 x: 10.0 y: 0.1 y: 3.0 }
+  prediction_impact_factor: 0.9
+  enable_lead_decision: true
+  speed_limit_strong_weight: 15.0
+  speed_limit_medium_weight: 10.0
+  speed_limit_weak_weight: 5.0
+  comfort_jerk_rel_desired_decel_plf {
+    x: -10.0
+    x: -5.0
+    x: -3.0
+    x: -2.0
+    x: -1.0
+    x: -0.5
+    y: -1.0
+    y: -0.6
+    y: -0.4
+    y: -0.3
+    y: -0.25
+    y: -0.2
+  }
+  comfortable_brake_bound_violation_rel_speed_plf {
+    x: -4.0
+    x: -2.0
+    x: 0.0
+    x: 2.0
+    x: 4.0
+    y: 6.0
+    y: 3.0
+    y: 2.0
+    y: 1.0
+    y: 0.5
+  }
+  delta_speed_factor: 0.055
+  upper_bound_decrease_threshold: 20.0
+  follow_lon_buffer_factor: 1.0
+  hard_follow_delta_speed_factor: 0.65
+  stop_line_delta_speed_factor: 1.0
+  static_bound_decrease_threshold: 15.0
+  stop_line_delta_speed_enable_distance: 120.0
+  stop_line_delta_speed_disable_distance: 50.0
+  min_stop_line_decay: 0.1
+  ref_speed_static_decrease {
+    x: 0.0
+    x: 50.0
+    x: 80.0
+    x: 120.0
+    y: 5.0
+    y: 5.0
+    y: 20.0
+    y: 25.0
+  }
+  middle_follow_delta_speed_factor: 0.5
+  hard_brake_start_acc: -0.5
+  hard_brake_end_acc: -1.5
+  delta_speed_pow_exp: 1.3
+}
+
+speed_limit_params {
+  enable_lane_limit: true
+  enable_curvature_limit: true
+  max_curvature_consider_radius: 5.0
+  speed_limit_for_large_curvature: 2.0
+  curvature_bias: 3.7
+  curvature_gain: 0.078
+  vehicle_buffer: 0.2
+  enable_new_curvature_speed_limit: true
+  curvature_power: 0.74
+  curvature_numerator: 0.51
+  curvature_bias1: 0.017
+  curvature_bias2: 2.1
+  max_steer_rate: 8.726  # 500 deg/s
+  min_steer_rate_speed_limit: 1.0
+  min_steer_rate_forward_consider_radius: 5.0
+  min_steer_rate_backward_consider_radius: 2.0
+  hard_curb_clearance_rel_speed_plf {
+    x: 0.15
+    x: 0.3
+    x: 0.5
+    x: 0.7
+    y: 2.778
+    y: 11.11
+    y: 16.67
+    y: 30.0
+  }
+  close_curb_max_dec: 0.8
+  approach_curb_max_dec: 1.0
+  moving_close_traj_max_time: 10.0
+  out_curvature_power: 0.6
+  out_curvature_numerator: 0.51
+  out_curvature_bias1: 0.008
+  out_curvature_bias2: 5.0
+  user_set_speed_bias_plf {
+    x: 30.0
+    x: 40.0
+    x: 50.0
+    x: 60.0
+    x: 70.0
+    x: 80.0
+    y: -0.5
+    y: -0.5
+    y: -0.5
+    y: -0.5
+    y: -0.5
+    y: -0.5
+  }
+  enable_steer_rate_limit: true
+  soft_acc_jerk: 2.0
+  approach_curb_angle_plf {
+    x: 5.0
+    x: 10.0
+    x: 45.0
+    y: 1.0
+    y: 0.5
+    y: 0.1
+  }
+  approach_curb_dist_plf {
+    x: 0.3
+    x: 2.0
+    y: 0.05
+    y: 1.0
+  }
+  approach_curb_straight_dist_plf {
+    x: 0.3
+    x: 0.8
+    y: 0.34
+    y: 0.8
+  }
+  v2_min_acc: -0.8
+  v2_delta_dist: 20.0
+  v2_small_left_min_acc: -1.3
+  v2_small_left_delta_dist: 30.0
+  v2_small_left_speed_max: 12.0
+  v2_small_left_end_s: 23.0
+  curvature_extend: 0.0
+  backward_curvature_extend: 0.0
+  weaker_curvature_power: 0.79
+  weaker_curvature_numerator: 0.51
+  weaker_curvature_bias1: 0.017
+  weaker_curvature_bias2: 1.1
+  weaker_out_curvature_power: 0.67
+  weaker_out_curvature_numerator: 0.51
+  weaker_out_curvature_bias1: 0.008
+  weaker_out_curvature_bias2: 3.5
+  weaker_curvature_extend: 2.0
+  weaker_backward_curvature_extend: 8.0
+  middle_curvature_power: 0.62
+  middle_curvature_numerator: 0.92
+  middle_curvature_bias1: 0.015
+  middle_curvature_bias2: 0.1
+  middle_curvature_extend: 5.0
+  middle_backward_curvature_extend: 10.0
+  strong_curvature_power: 0.81
+  strong_curvature_numerator: 0.42
+  strong_curvature_bias1: 0.002
+  strong_curvature_bias2: 0.3
+  strong_curvature_extend: 15.0
+  strong_backward_curvature_extend: 10.0
+  weak_acc_min: -2.0
+  middle_acc_min: -3.0
+  t_junction_brake_dis: 70.0
+  t_junction_brake_acc: -2.0
+  t_junction_max_speed: 5.0
+  enable_middle_for_more_road: false
+  hack_dis_start_s_to_lane_end1: 84.0
+  hack_dis_end_s_to_lane_end1: 40.0
+  hack_max_speed1: 4.0
+  hack_dis_start_s_to_lane_end2: 45.0
+  hack_dis_end_s_to_lane_end2: 21.0
+  hack_max_speed2: 4.5
+  hack_acc_thld_limit_speed: -0.5
+  enable_hack_turn_speed_limit: true
+  hack_dis_start_s_to_lane_end_rt_2: 77.0
+  hack_dis_end_s_to_lane_end_rt_2: 24.0
+  hack_max_speed_rt_2: 5.0
+  hack_max_speed_rt_1_1: 6.0
+  hack_max_speed_rt_1_2: 8.0
+  hack_max_speed_rt_1_3: 4.0
+  hack_max_speed_rt_cp: 8.0
+  hack_max_speed_rt_4_1: 8.0
+  hack_max_speed_rt_4_2: 8.0
+  hack_max_speed_rt_4_3: 4.5
+  enable_hack_rt_4_3: true
+  hack_max_speed_lt_1_1: 9.72
+  hack_max_speed_lt_1_2: 9.72
+  enable_hdmap_uturn_signal: true
+  hdmap_uturn_max_v: 3.5
+  hdmap_uturn_front_dis: 25.0
+  hdmap_uturn_end_dis: 25.0
+  hdmap_uturn_signal_front_dis: 26.0
+  hdmap_uturn_signal_end_dis: 26.0
+}
+
+sampling_dp_speed_params {
+  unit_t: 1.0
+  unit_v: 1.5
+  s_dimension_size: 50
+  unit_acc: 0.5
+  speed_exceeding_cap: 2.0
+  speed_weight: 1.0
+  accel_weight: 1.0
+  object_weight: 2.0
+  reference_weight: 0.0
+  spatial_potential_weight: 0.5
+  exceed_speed_penalty: 7.0
+  low_speed_penalty: 0.1
+  reference_speed_penalty: 1.0
+  accel_penalty: 5.0
+  decel_penalty: 1.0
+  coarse_sampling_decel_thres: -3.0
+  coarse_sampling_num: 2
+}
+
+follow_standstill_distance: 3.5
+follow_standstill_distance_for_static_obj: 6.0
+follow_standstill_distance_for_curb: 1.0
+follow_standstill_distance_for_stalled_obj: 6.5
+follow_standstill_distance_for_large_obj: 6.0
+follow_safety_distance: 2.5
+extra_follow_standstill_distance_for_large_vehicle_plf {
+  x: 4.0
+  x: 6.0
+  y: 0.8
+  y: 0.0
+}
+lead_standstill_distance: 4.0
+follow_time_headway: 1.7
+large_vehicle_follow_time_headway: 2.0
+lead_time_headway: 1.0
+gap_expand_follow_standstill: 5.0
+follow_distance_rel_speed_plf {
+  x: 0.0
+  x: 2.0
+  x: 3.0
+  x: 4.0
+  y: 1.0
+  y: 0.3
+  y: 0.1
+  y: 0.02
+}
+probability_gain_plf { x: 0.0 x: 0.3 x: 0.6 x: 1.0 y: 0.0 y: 0.1 y: 0.3 y: 1.0 }
+
+close_object_params { enable_stationary_close_object_slowdown: true }
+
+st_boundary_pre_decision_params {
+  enable_lane_change_lead_decision: true
+  enable_parallel_cut_in_pre_brake: true
+}
+
+ignore_decision_params {
+  ignore_late_parallel_cut_in_vehicle: false
+  ignore_reverse_driving: false
+  ignore_back_parallel_merge_obj: true
+}
+
+pre_brake_decision_params { ignore_late_cut_in_ped: false }
+
+enable_interactive_speed_decision: true
+
+enable_full_stop: true
+full_stop_traj_length_threshold: 1.5
+full_stop_traj_time_threshold: 1.5
+full_stop_speed_threshold: 0.1
+st_graph_params {
+  consider_mirrors_by_default: false
+  impassable_boundaries_search_radius_buffer: 0.8
+  consider_large_vehicle_blind_spot: true
+  enable_small_angle_cut_in_protective_st_boundary: true
+}
+enable_front_vehicle_alert: true
+speed_optimizer_config_dispatcher_params {
+  enable_dispatch_by_safety_mode: true
+}
+headway_speed_buffer_plf {
+    x: 0.0
+    x: 10.0
+    x: 40.0
+    x: 70.0
+    x: 100.0
+    x: 130.0
+    y: 0.1
+    y: 0.2
+    y: 0.4
+    y: 0.4
+    y: 0.7
+    y: 0.8
+}
+max_accel_jerk: 10.0
+max_decel_jerk: -10.0
+leading_obj_acc_plf_params {
+  x: 3.0
+  x: 8.0
+  y: 6.0
+  y: 4.0
+}
+leading_obj_acc_factor_params {
+  x: -4.0
+  x: -2.0
+  x: -0.5
+  x: 0.0
+  y: 1.0
+  y: 1.0
+  y: 1.0
+  y: 1.0
+}
+max_leading_acc_extend: 1.0
+enable_hard_brake_for_every_obj: true
+obj_scene_params {
+  lt_str_pass_time_addi_buffer: 0.8
+  lt_str_dp_follow_lead_ratio: 1.0 
+  lt_str_obj_follow_dist_buffer: 2.0
+  enable_lt_overtake_cost: true
+  lt_overtake_cost: 1.0e11
+}
+
+enable_mcts_game: true
+mcts_lon_params {
+  w_safe: 0.25
+  w_eff: 0.65
+  w_acc: 0.25
+  w_jerk: 0.25
+  w_act: 0.45
+  w_heu: 0.25
+  reward_max: 3.0
+  reward_min: -3.0
+  threshold_collision: 0.5
+  t_diff_max: 5.0
+  v_perf: 6.0
+  radio_v_perf: 0.8
+  a_max: 2.0
+  a_min: -3.0
+  jerk_max: 3.0
+  action_coeff: 0.2
+  threshold_gamepoint: 1.0
+  vehicle_status_update_model_params {
+    cost_max: 5.0
+    time_expect: 5.0
+    temperature: 2.0
+    a_max: 2.0
+    a_min: -3.0
+    jerk_max: 2.0
+  }
+  time_step_plf {
+    x: 2.0
+    x: 4.0
+    x: 6.0
+    x: 8.0
+    y: 0.5
+    y: 1.0
+    y: 1.5
+    y: 2.0
+  }
+  remain_dis_min_threshold: 2.0
+  enable_lon_mcts_game: true
+}
+enable_mcts_vru:true
+mcts_vru_params {
+  vru_config {
+    jerk_max:2.0
+    ang_v_max:1.5
+    delta_t:0.5
+    w_safety:500.0
+    w_goal:5.0
+    w_speed:1.0
+    w_accel:1.0
+    w_jerk:1.0
+    w_angular_v:5.0
+    w_angular_a:1.0
+
+    ego_length:4.8
+    ego_width:2.0
+
+    beta:0.5
+    prediction_window:3.0
+
+    num_jerk_samples:3
+    num_ang_v_samples:3
+
+    v_pedestrian:2.0
+    v_cyclist:6.0
+
+    v_max:10.0
+    v_low:0.6
+    v_high:6.0
+    epsilon_j:0.3
+    k:1.0
+  }
+  vru_reward_params {
+    w_self:0.5
+    w_other:0.5
+
+    w_self_step:1.0
+    w_self_end:1.0
+    w_safe:0.25
+    w_eff:0.65
+    w_acc:0.25
+    w_jerk:0.25
+    w_act:0.45
+
+    reward_max:3.0
+    reward_min:-3.0
+
+    threshold_collision:0.5
+    t_diff_max:5.0
+
+    v_perf:4.0
+
+    a_max:2.0
+    a_min:-3.0
+
+    jerk_max:2.0
+
+    action_coeff:1.0
+
+    threshold_parking:0.3
+    parking_penalty:-3.0
+
+    w_other_delta_v:2.0
+    w_other_delta_heading:5.0
+    w_other_v:1.0
+    v_max_vru:3.0
+    beta_delta_v:2.0
+
+    leader_width:1.0
+    collision_distance:2.0
+  }
+}
+enable_online_mcts_debug: false
+enable_offline_mcts_debug: false
+style_estimation_params {
+  w_safe: 0.25
+  w_eff: 0.65
+  w_acc: 0.25
+  reward_max: 3.0
+  reward_min: -3.0
+  threshold_collision: 0.5
+  t_diff_max: 5.0
+  v_perf: 6.0
+  radio_v_perf: 0.8
+  a_max: 2.0
+  a_min: -3.0
+  num_history_points: 5
+}
